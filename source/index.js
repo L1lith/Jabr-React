@@ -29,13 +29,13 @@ class JabrConsumer extends Component {
   constructor(props) {
     super(props)
     let {select} = this.props
-    if (!this.props.hasOwnProperty('select')) throw new Error("Missing Select Prop")
+    //if (!this.props.hasOwnProperty('select')) throw new Error("Missing Select Prop")
     if (select === null) select = {}
     if (typeof select != 'object') throw new Error("Select Prop is Not an Object.")
     select = findInObject(select, val => val === true, {onInvalid: () => {
       throw new Error("Invalid Select Object")
     }}).map(result => result[0])
-    this.select = select
+    this.select = selects
   }
   render() {
     return React.createElement(Consumer, null, jabr => {
@@ -69,7 +69,7 @@ class JabrUpdater extends Component {
         this.forceUpdate()
       }
       this.listeners.set(path, callback)
-      this.jabr.on(...path, callback)
+      this.props.jabr.on(...path, callback)
     })
 
     this.listening = true

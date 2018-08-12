@@ -1,6 +1,6 @@
 const {Component} = require('react')
 const Jabr = require('jabr')
-const findInObject = require('../functions/findInObject')
+const findInObject = require('./functions/findInObject')
 const PropTypes = require('prop-types')
 
 class JabrReact extends Component {
@@ -19,13 +19,10 @@ class JabrReact extends Component {
     } else if (typeof select == 'object' && select !== null) {
       this.selections = findInObject(select, val => val === true, {onInvalid: ()=>{
         throw new Error("Invalid Select Object")
-      }})
-      console.log({selections})
+      }}).map(result => result[0])
     } else {
       throw new Error("Invalid Select Object")
     }
-
-    this.componentId = ++totalComponents
   }
   getChildContext() {
     return {jabrStore: this.store, jabrSelections: this.selections}

@@ -35,7 +35,7 @@ class JabrConsumer extends Component {
     select = findInObject(select, val => val === true, {onInvalid: () => {
       throw new Error("Invalid Select Object")
     }}).map(result => result[0])
-    this.select = selects
+    this.select = select
   }
   render() {
     return React.createElement(Consumer, null, jabr => {

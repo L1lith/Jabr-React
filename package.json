@@ -1,6 +1,6 @@
 {
   "name": "jabr-react",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "React components for Jabr",
   "main": "source/index.js",
   "scripts": {

@@ -7,7 +7,7 @@ const autoBind = require('auto-bind')
 const globalJabrContext = React.createContext()
 const {Provider, Consumer} = globalJabrContext
 
-class JabrProvider extends Component {
+class JabrProvider extends React.Component {
   constructor(props) {
     super(props)
     if (this.props.hasOwnProperty('store')) {
@@ -45,7 +45,7 @@ function connect(Component, select, options={}) {
   return JabrConsumer
 }
 
-class JabrUpdater extends Component {
+class JabrUpdater extends React.Component {
   constructor(props) {
     super(props)
     autoBind(this)

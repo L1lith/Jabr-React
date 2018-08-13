@@ -25,10 +25,8 @@ class JabrProvider extends Component {
   }
 }
 
-function connect(Component, options={}) {
+function connect(Component, select, options={}) {
   if (typeof options != 'object' || options === null) throw new Error('Options must be an object')
-
-  let {select} = options
   if (typeof select != 'object') throw new Error("Select Prop is Not an Object.")
   if (select === null) select = {}
 

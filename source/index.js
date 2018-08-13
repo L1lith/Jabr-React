@@ -25,24 +25,26 @@ class JabrProvider extends Component {
   }
 }
 
-class JabrConsumer extends Component {
-  constructor(props) {
-    super(props)
-    let {select} = this.props
-    //if (!this.props.hasOwnProperty('select')) throw new Error("Missing Select Prop")
-    if (select === null) select = {}
-    if (typeof select != 'object') throw new Error("Select Prop is Not an Object.")
-    select = findInObject(select, val => val === true, {onInvalid: () => {
-      throw new Error("Invalid Select Object")
-    }}).map(result => result[0])
-    this.select = select
+function connect(Component, options={}) {
+  if (typeof options != 'object' || options === null) throw new Error('Options must be an object')
+
+  let {select} = options
+  if (typeof select != 'object') throw new Error("Select Prop is Not an Object.")
+  if (select === null) select = {}
+
+  select = findInObject(select, val => val === true, {onInvalid: () => {
+    throw new Error("Invalid Select Object")
+  }}).map(result => result[0])
+
+  class JabrConsumer extends Component {
+    render() {
+      return React.createElement(Consumer, null, jabr => {
+        if (!(jabr instanceof Jabr)) throw new Error("Jabr Context Not a Jabr Instance!")
+        return React.createElement(JabrUpdater, {jabr, select}, this.props.children)
+      })
+    }
   }
-  render() {
-    return React.createElement(Consumer, null, jabr => {
-      if (!(jabr instanceof Jabr)) throw new Error("Jabr Context Not a Jabr Instance!")
-      return React.createElement(JabrUpdater, {jabr: jabr, select: this.select}, this.props.children)
-    })
-  }
+  return JabrConsumer
 }
 
 class JabrUpdater extends Component {
@@ -91,4 +93,4 @@ class JabrUpdater extends Component {
   }
 }
 
-module.exports = {Provider: JabrProvider, Connect: JabrConsumer}
+module.exports = {Provider: JabrProvider, connect}

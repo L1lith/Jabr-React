@@ -1,4 +1,4 @@
-const {Component} = React = require('react')
+const React = require('react')
 const createJabr = require('jabr')
 const Jabr = require('jabr/source/Jabr')
 const findInObject = require('./functions/findInObject')
@@ -34,11 +34,11 @@ function connect(Component, select, options={}) {
     throw new Error("Invalid Select Object")
   }}).map(result => result[0])
 
-  class JabrConsumer extends Component {
+  class JabrConsumer extends React.Component {
     render() {
       return React.createElement(Consumer, null, jabr => {
         if (!(jabr instanceof Jabr)) throw new Error("Jabr Context Not a Jabr Instance!")
-        return React.createElement(JabrUpdater, {jabr, select}, this.props.children)
+        return React.createElement(JabrUpdater, {jabr, select}, Component)
       })
     }
   }

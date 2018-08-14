@@ -2,18 +2,16 @@ const React = require('react')
 const autoBind = require('auto-bind')
 const clone = require('clone')
 const equal = require('deep-equal')
-const Jabr = require('jabr/source/Jabr')
+const createJabr = require('jabr')
 
 class JabrUpdater extends React.Component {
   constructor(props) {
     super(props)
+
     autoBind(this)
     this.listening = false
     this.listeners = new Map()
-    this.childProps = {...this.props}
-    this.lastStore = new Jabr(this.props.jabr.valueOf())
-    delete this.childProps.select
-    delete this.childProps.children
+    this.lastStore = createJabr(clone(this.props.jabr.valueOf()))
   }
   componentWillMount() {
     this.setupJabrListeners()
@@ -26,7 +24,6 @@ class JabrUpdater extends React.Component {
 
     this.props.select.forEach(path => {
       const callback = (...args)=>this.onChange(path, ...args)
-      console.log(callback, this.onChange, this.props.jabr.on)
       this.listeners.set(callback, path)
       this.props.jabr.on(...path, callback)
     })
@@ -44,17 +41,24 @@ class JabrUpdater extends React.Component {
     this.listening = false
   }
   onChange(listenPath, value, targetPath) {
-    if (targetPath.some((value, index) => listenPath.hasOwnProperty(index) && listenPath[index] !== value)) return // Ignore paths that cannot affect ours
-    const newVal = this.props.jabr._Jabr.get(...listenPath)
-    const oldVal = this.lastStore.get(...listenPath)
-    this.lastStore = new Jabr(newVal)
-    if (!equal(newVal, oldVal)) {
+    if (this.shouldUpdate(listenPath, targetPath)) {
       this.forceUpdate()
     }
   }
+  shouldUpdate(listenPath, targetPath) {
+    if (targetPath.some((value, index) => listenPath.hasOwnProperty(index) && listenPath[index] !== value)) return false // Ignore paths that cannot affect ours
+    const oldVal = this.lastStore._Jabr.get(...listenPath)
+    const newVal = this.props.jabr._Jabr.get(...listenPath)
+    this.lastStore = createJabr(clone(this.props.jabr.valueOf()))
+    return !equal(newVal, oldVal)
+  }
   render() {
+    const childProps = {...this.props}
+
+    delete childProps.select
+    delete childProps.children
     const childrenWithStore = React.Children.map(this.props.children, child =>
-      React.cloneElement(child, {...this.childProps, store: this.props.jabr}))
+      React.cloneElement(child, {...childProps, store: this.props.jabr}))
     return childrenWithStore
   }
 }

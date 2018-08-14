@@ -38,7 +38,7 @@ function connect(Component, select, options={}) {
     render() {
       return React.createElement(Consumer, null, jabr => {
         if (!(jabr instanceof Jabr)) throw new Error("Jabr Context Not a Jabr Instance!")
-        return React.createElement(JabrUpdater, {jabr, select}, Component)
+        return React.createElement(JabrUpdater, {...this.props, jabr, select}, Component)
       })
     }
   }
@@ -86,7 +86,7 @@ class JabrUpdater extends React.Component {
   }
   render() {
     const childrenWithStore = React.Children.map(this.props.children, child =>
-      React.cloneElement(child, {store: this.props.jabr}))
+      React.cloneElement(child, {...this.childProps, store: this.props.jabr}))
     return childrenWithStore
   }
 }

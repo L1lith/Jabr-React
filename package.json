@@ -1,6 +1,6 @@
 {
   "name": "jabr-react",
-  "version": "0.1.11",
+  "version": "0.1.19",
   "description": "React components for Jabr",
   "main": "source/index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   "dependencies": {
     "clone": "^2.1.2",
     "deep-equal": "^1.0.1",
-    "jabr": "0.0.9",
+    "jabr": "0.0.10",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"

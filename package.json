@@ -23,7 +23,9 @@
   },
   "homepage": "https://github.com/L1lith/Jabr-React#readme",
   "dependencies": {
-    "jabr": "0.0.8",
+    "clone": "^2.1.2",
+    "deep-equal": "^1.0.1",
+    "jabr": "0.0.9",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"

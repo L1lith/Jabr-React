@@ -1,5 +1,6 @@
 const React = require('react')
 const createJabr = require('jabr')
+const Jabr = require('jabr/source/Jabr')
 
 const {Provider} = require('./globalJabrContext')
 

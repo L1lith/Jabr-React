@@ -17,7 +17,7 @@ function connect(Component, select, options={}) {
     render() {
       return React.createElement(Consumer, null, jabr => {
         if (!(jabr instanceof Jabr)) throw new Error("Jabr Context Not a Jabr Instance!")
-        return React.createElement(JabrUpdater, {...this.props, jabr, select}, Component)
+        return React.createElement(JabrUpdater, {...this.props, jabr, select, Component})
       })
     }
   }

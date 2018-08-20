@@ -12,10 +12,6 @@ class JabrUpdater extends React.Component {
     this.listening = false
     this.listeners = new Map()
     this.lastStore = createJabr(clone(this.props.jabr.valueOf()))
-    this.childProps = {...this.props}
-
-    delete this.childProps.Component
-    delete this.childProps.select
   }
   componentWillMount() {
     this.setupJabrListeners()
@@ -57,7 +53,12 @@ class JabrUpdater extends React.Component {
     return !equal(newVal, oldVal)
   }
   render() {
-    return React.cloneElement(this.props.Component, {...this.childProps, store: this.props.jabr})
+    const childProps = {...this.props}
+
+    delete childProps.Component
+    delete childProps.select
+    delete childProps.children
+    return React.cloneElement(this.props.Component, {...childProps, store: this.props.jabr}, this.props.children || null)
   }
 }
 

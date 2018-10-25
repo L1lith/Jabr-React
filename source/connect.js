@@ -4,7 +4,7 @@ const findInObject = require('./functions/findInObject')
 const JabrUpdater = require('./JabrUpdater')
 const {Consumer} = require('./globalJabrContext')
 
-function connect(Component, select, options={}) {
+function connect(Component, select={}, options={}) {
   if (typeof options != 'object' || options === null) throw new Error('Options must be an object')
   if (typeof select != 'object') throw new Error("Select Prop is Not an Object.")
   if (select === null) select = {}

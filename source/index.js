@@ -1,4 +1,10 @@
-const JabrProvider = require('./JabrProvider')
-const connect = require('./connect')
+const {createContext} = require('react')
+const createReactConnector = require('./createReactConnector')
+const createReactProvider = require('./createReactProvider')
 
-module.exports = {Provider: JabrProvider, connect}
+const context = createContext()
+
+module.exports = {
+  Provider: createReactProvider(context),
+  Connector: createReactConnector(context)
+}

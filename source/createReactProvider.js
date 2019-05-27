@@ -9,6 +9,7 @@ function createReactProvider(context) {
       delete props.value
       delete props.store
       const {store} = this.props
+      if (!(store instanceof Jabr)) throw new Error("Expected the store prop to be a Jabr store instance")
       return React.createElement(context.Provider, {...props, value: store})
     }
   }

@@ -22,7 +22,6 @@ class ComponentUpdater extends Component {
   }
   render() {
     const props = {...this.props}
-    if (!(props.store instanceof Jabr)) throw new Error("Expected the store prop to be a Jabr store instance")
     props.jabrStore = props.store
     delete props.children
     delete props.store

@@ -1,6 +1,6 @@
 const React = require('react')
 const {Component, createElement} = React
-const Jabr = require('jabr/source/Jabr')
+const Jabr = require('jabr')
 
 function createReactProvider(context) {
   class Provider extends Component {
@@ -8,7 +8,8 @@ function createReactProvider(context) {
       const props = {...this.props}
       delete props.value
       delete props.store
-      const {store} = this.props
+      let store = this.props.store || new Jabr()
+      if (typeof store == 'object' && store !== null && !(store instanceof Jabr)) store = new Jabr(store)
       if (!(store instanceof Jabr)) throw new Error("Expected the store prop to be a Jabr store instance")
       return React.createElement(context.Provider, {...props, value: store})
     }
